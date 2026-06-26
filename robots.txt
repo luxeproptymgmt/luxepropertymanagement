@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block nothing of value; allow all crawlers full access.
+Disallow:
+
+# Sitemap
+Sitemap: https://www.luxepr.com/sitemap.xml

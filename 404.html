@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es-PR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página no encontrada — Luxe Property Management</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<meta name="theme-color" content="#0E2A36">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ocean-midnight:#0E2A36;--ocean-deep:#15455A;--ocean-teal:#2E7D8F;
+  --gold:#C9A24B;--gold-soft:#E4C77E;--warm-white:#FBF9F4;--stone:#D8D0C2;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--ocean-midnight);color:var(--warm-white);min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;position:relative;-webkit-font-smoothing:antialiased;}
+.bg{position:absolute;inset:0;background:linear-gradient(115deg,#0E2A36 0%,#15455A 55%,#2E7D8F 130%);}
+.bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 35%,rgba(201,162,75,.16),transparent 55%);}
+.box{position:relative;z-index:2;padding:40px 28px;max-width:560px;}
+.mark{width:54px;height:54px;border-radius:13px;background:var(--ocean-deep);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:30px;margin:0 auto 32px;border:1px solid rgba(201,162,75,.4);box-shadow:0 10px 30px -12px rgba(0,0,0,.5);}
+.code{font-family:'Cormorant Garamond',serif;font-size:clamp(80px,18vw,140px);font-weight:600;line-height:1;color:var(--gold-soft);letter-spacing:-0.02em;}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,36px);font-weight:600;margin:8px 0 16px;letter-spacing:-0.01em;}
+p{color:var(--stone);font-size:16px;line-height:1.7;margin-bottom:34px;}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Inter';font-weight:500;font-size:15px;background:var(--gold);color:var(--ocean-midnight);border-radius:11px;padding:15px 30px;text-decoration:none;transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .35s var(--ease);box-shadow:0 8px 20px -12px rgba(201,162,75,.5);}
+.btn:hover{background:var(--gold-soft);transform:translateY(-2px);box-shadow:0 16px 38px -12px rgba(201,162,75,.62);}
+.links{margin-top:30px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap;}
+.links a{color:var(--stone);font-size:14px;text-decoration:none;transition:color .25s;}
+.links a:hover{color:var(--gold-soft);}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="box">
+  <div class="mark">L</div>
+  <div class="code">404</div>
+  <h1>Esta página se nos escapó</h1>
+  <p>La página que buscas no existe o fue movida. Volvamos a poner tu propiedad en las mejores manos.</p>
+  <a href="/" class="btn">Volver al inicio</a>
+  <div class="links">
+    <a href="/#servicios">Servicios</a>
+    <a href="/#propiedades">Propiedades</a>
+    <a href="/#proceso">Nuestro Proceso</a>
+    <a href="/#contacto">Contacto</a>
+  </div>
+</div>
+</body>
+</html>
