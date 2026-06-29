@@ -282,6 +282,7 @@ section{position:relative;}
 .area-chip:hover{background:var(--ocean-midnight);transform:translateY(-3px);}
 .area-chip:hover .an,.area-chip:hover .ti{color:var(--warm-white);}
 .area-chip .ti{color:var(--ocean-teal);font-size:21px;transition:color .35s;}
+.area-chip svg{width:21px;height:21px;color:var(--ocean-teal);stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none;transition:transform .35s var(--ease),color .35s;}
 .area-chip .an{font-size:15px;font-weight:500;color:var(--charcoal);transition:color .35s;}
 .areas-note{text-align:center;margin-top:30px;color:var(--taupe);font-size:14.5px;}
 
@@ -453,6 +454,7 @@ h1,h2,h3{font-feature-settings:"liga" 1,"kern" 1;text-rendering:optimizeLegibili
 .area-chip{will-change:transform;}
 .area-chip .ti{transition:transform .35s var(--ease),color .35s;}
 .area-chip:hover .ti{transform:translateY(-2px) scale(1.1);}
+.area-chip:hover svg{color:var(--warm-white);transform:translateY(-2px) scale(1.1);}
 
 /* --- contact method hover --- */
 .cm{transition:transform .35s var(--ease);}
@@ -1535,17 +1537,29 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <div class="shead center reveal">
       <span class="eyebrow">Cobertura en la isla</span>
       <h2>Áreas de Servicio de Administración Airbnb en Puerto Rico</h2>
-      <p>Ofrecemos administración Airbnb y servicios de co-host en los destinos más solicitados de Puerto Rico, desde la costa oeste hasta el área metropolitana de San Juan.</p>
+      <p>Ofrecemos administración Airbnb y servicios de co-host en los destinos más solicitados del norte, oeste y sur de Puerto Rico.</p>
     </div>
     <div class="area-grid">
-      <div class="area-chip reveal"><i class="ti ti-beach"></i><span class="an">Rincón</span></div>
-      <div class="area-chip reveal"><i class="ti ti-beach"></i><span class="an">Aguada</span></div>
-      <div class="area-chip reveal"><i class="ti ti-beach"></i><span class="an">Isabela</span></div>
-      <div class="area-chip reveal"><i class="ti ti-building"></i><span class="an">San Juan</span></div>
-      <div class="area-chip reveal"><i class="ti ti-anchor"></i><span class="an">Fajardo</span></div>
-      <div class="area-chip reveal"><i class="ti ti-beach"></i><span class="an">Cabo Rojo</span></div>
-      <div class="area-chip reveal"><i class="ti ti-mountain"></i><span class="an">Adjuntas</span></div>
-      <div class="area-chip reveal"><i class="ti ti-sailboat"></i><span class="an">Dorado</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Camuy</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Quebradillas</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Isabela</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Aguadilla</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Moca</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Aguada</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">San Sebastián</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Lares</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Rincón</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Añasco</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Las Marías</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Mayagüez</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Maricao</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Hormigueros</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">San Germán</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Cabo Rojo</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Sabana Grande</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Lajas</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Yauco</span></div>
+      <div class="area-chip reveal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="an">Guánica</span></div>
     </div>
     <p class="areas-note">¿No ves tu municipio? <a href="#contacto" style="color:var(--ocean-deep);font-weight:500;text-decoration:underline;text-underline-offset:3px;">Escríbenos</a> — seguimos expandiéndonos por toda la isla.</p>
   </div>
@@ -1973,14 +1987,26 @@ if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
         "longitude": -66.1057
       },
       "areaServed": [
-        {"@type": "City", "name": "San Juan"},
-        {"@type": "City", "name": "Rincón"},
-        {"@type": "City", "name": "Aguada"},
+        {"@type": "City", "name": "Camuy"},
+        {"@type": "City", "name": "Quebradillas"},
         {"@type": "City", "name": "Isabela"},
-        {"@type": "City", "name": "Fajardo"},
+        {"@type": "City", "name": "Aguadilla"},
+        {"@type": "City", "name": "Moca"},
+        {"@type": "City", "name": "Aguada"},
+        {"@type": "City", "name": "San Sebastián"},
+        {"@type": "City", "name": "Lares"},
+        {"@type": "City", "name": "Rincón"},
+        {"@type": "City", "name": "Añasco"},
+        {"@type": "City", "name": "Las Marías"},
+        {"@type": "City", "name": "Mayagüez"},
+        {"@type": "City", "name": "Maricao"},
+        {"@type": "City", "name": "Hormigueros"},
+        {"@type": "City", "name": "San Germán"},
         {"@type": "City", "name": "Cabo Rojo"},
-        {"@type": "City", "name": "Adjuntas"},
-        {"@type": "City", "name": "Dorado"},
+        {"@type": "City", "name": "Sabana Grande"},
+        {"@type": "City", "name": "Lajas"},
+        {"@type": "City", "name": "Yauco"},
+        {"@type": "City", "name": "Guánica"},
         {"@type": "AdministrativeArea", "name": "Puerto Rico"}
       ],
       "knowsLanguage": ["es", "en"],
