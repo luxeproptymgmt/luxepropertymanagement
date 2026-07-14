@@ -122,8 +122,46 @@ section{position:relative;}
 .nav-links a:hover::after{width:100%;}
 .nav.scrolled .nav-links a{color:var(--charcoal);}
 .nav-cta{display:flex;align-items:center;gap:12px;}
-.menu-btn{display:none;background:none;border:none;cursor:pointer;font-size:26px;color:var(--warm-white);}
+.menu-btn{display:none;background:none;border:none;cursor:pointer;font-size:26px;color:var(--warm-white);width:44px;height:44px;align-items:center;justify-content:center;}
 .nav.scrolled .menu-btn{color:var(--ocean-midnight);}
+
+/* --- language toggle --- */
+.lang-toggle{
+  background:transparent;
+  border:1px solid rgba(251,249,244,.4);
+  color:var(--warm-white);
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0.02em;
+  padding:9px 18px;
+  border-radius:20px;
+  cursor:pointer;
+  transition:all .3s var(--ease);
+  margin-right:14px;
+  white-space:nowrap;
+}
+.lang-toggle:hover{
+  background:var(--gold);
+  border-color:var(--gold);
+  color:var(--ocean-midnight);
+  transform:translateY(-1px);
+}
+.nav.scrolled .lang-toggle{
+  border-color:rgba(14,42,54,.25);
+  color:var(--ocean-midnight);
+}
+.nav.scrolled .lang-toggle:hover{
+  background:var(--gold);
+  color:var(--ocean-midnight);
+  border-color:var(--gold);
+}
+.lang-toggle-mobile{
+  color:var(--warm-white);
+  border-color:rgba(251,249,244,.3);
+  margin:0 0 24px;
+  align-self:flex-start;
+}
 
 /* mobile drawer */
 .drawer{position:fixed;inset:0;z-index:100;background:var(--ocean-midnight);transform:translateX(100%);transition:transform .45s var(--ease);display:flex;flex-direction:column;padding:28px;}
@@ -339,7 +377,9 @@ footer{background:#0a1f29;color:var(--stone);padding:70px 0 34px;}
   .pad{padding:64px 0;}
   .wrap{padding:0 20px;}
   .nav-links,.nav-cta .btn{display:none;}
-  .menu-btn{display:block;}
+  .lang-toggle{display:none;}
+  .drawer .lang-toggle-mobile{display:inline-flex;}
+  .menu-btn{display:flex;}
   .nav-cta .btn-wa-mini{display:inline-flex;}
   .hero{padding:150px 0 50px;}
   .hero h1{font-size:clamp(34px,9vw,46px);}
@@ -917,6 +957,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <a href="#contacto">Contacto</a>
     </div>
     <div class="nav-cta">
+      <button id="langToggle" class="lang-toggle" type="button" aria-label="Cambiar idioma / Change language">English</button>
       <a href="#formulario" class="btn btn-gold">Consulta Gratuita</a>
       <button class="menu-btn" id="menuBtn" aria-label="Abrir menú"><i class="ti ti-menu-2"></i></button>
     </div>
@@ -932,6 +973,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     </div>
     <button class="close" id="closeBtn" aria-label="Cerrar menú"><i class="ti ti-x"></i></button>
   </div>
+  <button id="langToggleMobile" class="lang-toggle lang-toggle-mobile" type="button" aria-label="Cambiar idioma / Change language">English</button>
   <a href="#servicios" class="dl">Servicios</a>
   <a href="#estimador" class="dl">Calculadora de Ingresos</a>
   <a href="#propiedades" class="dl">Propiedades</a>
@@ -1730,6 +1772,420 @@ document.getElementById('menuBtn').addEventListener('click',()=>{drawer.classLis
 document.getElementById('closeBtn').addEventListener('click',()=>{drawer.classList.remove('open');document.body.style.overflow='';});
 drawer.querySelectorAll('.dl').forEach(a=>a.addEventListener('click',()=>{drawer.classList.remove('open');document.body.style.overflow='';}));
 
+
+/* ===== LANGUAGE TOGGLE ===== */
+const i18nDynamic = {
+  "es": {
+    "progressStart": "Completa tus datos para empezar",
+    "progressMid": "Vas muy bien, sigue así",
+    "progressDone": "¡Listo para enviar!",
+    "sending": "Enviando…",
+    "received": "¡Solicitud Recibida!",
+    "successNote": "Gracias. Nuestro equipo te contactará en menos de 24 horas.",
+    "errorNote": "No pudimos enviar tu solicitud. Escríbenos por WhatsApp al (787) 528-2333.",
+    "restoreNote": "Tus datos están protegidos. Nunca compartimos tu información ni te enviamos spam.",
+    "submitBtn": "Solicitar mi Consulta Gratuita"
+  },
+  "en": {
+    "progressStart": "Fill in your details to get started",
+    "progressMid": "You're doing great, keep going",
+    "progressDone": "Ready to submit!",
+    "sending": "Sending…",
+    "received": "Request Received!",
+    "successNote": "Thank you. Our team will contact you within 24 hours.",
+    "errorNote": "We couldn't send your request. Message us on WhatsApp at (787) 528-2333.",
+    "restoreNote": "Your information is protected. We never share your data or send spam.",
+    "submitBtn": "Request My Free Consultation"
+  }
+};
+function currentLuxeLang(){
+  return localStorage.getItem('luxe_lang') || 'es';
+}
+(function(){
+  const STORAGE_KEY='luxe_lang';
+  const btnDesktop=document.getElementById('langToggle');
+  const btnMobile=document.getElementById('langToggleMobile');
+  const textTranslations={
+  "Saltar al contenido": "Skip to content",
+  "Servicios": "Services",
+  "Calculadora": "Calculator",
+  "Propiedades": "Properties",
+  "Proceso": "Process",
+  "Preguntas": "FAQ",
+  "Contacto": "Contact",
+  "Consulta Gratuita": "Free Consultation",
+  "Calculadora de Ingresos": "Revenue Calculator",
+  "Nuestro Proceso": "Our Process",
+  "Testimonios": "Testimonials",
+  "Preguntas Frecuentes": "FAQ",
+  "Solicitar Consulta Gratuita": "Request a Free Consultation",
+  "Administración de lujo · Airbnb · Puerto Rico": "Luxury Property Management · Airbnb · Puerto Rico",
+  "Tu Propiedad en las": "Your Property in the",
+  "Mejores Manos": "Best Hands",
+  "Tu Mente, Por Fin Tranquila.": "Your Mind, Finally at Ease.",
+  "Convertimos tu Airbnb en una fuente de ingresos excepcional —sin que tengas que mover un dedo. Operamos cada detalle con estándar de hospitalidad de lujo, mientras tú recuperas tu tiempo y ves crecer tu inversión.": "We turn your Airbnb into an exceptional source of income — without you lifting a finger. We handle every detail to a luxury hospitality standard, while you get your time back and watch your investment grow.",
+  "Solicitar mi Consulta Gratuita": "Request My Free Consultation",
+  "Hablar con un Asesor": "Speak with an Advisor",
+  "Sin compromiso · Respuesta en menos de 24 horas · Cupos limitados cada mes": "No obligation · Response within 24 hours · Limited spots each month",
+  "Anfitrión Superhost": "Superhost",
+  "Certificado en Airbnb": "Airbnb Certified",
+  "4.9 / 5": "4.9 / 5",
+  "más de 1,200 reseñas de huéspedes": "1,200+ guest reviews",
+  "Ingresos promedio": "Average revenue",
+  "Ocupación promedio": "Average occupancy",
+  "Reseñas de huéspedes": "Guest reviews",
+  "Atención al huésped": "Guest support",
+  "Anfitriones Superhost certificados": "Certified Superhost hosts",
+  "+50 propiedades administradas": "50+ properties managed",
+  "+1,200 reseñas de 5 estrellas": "1,200+ five-star reviews",
+  "Expertos locales en Puerto Rico": "Local experts in Puerto Rico",
+  "La diferencia Luxe": "The Luxe difference",
+  "Por Qué Elegir Luxe para la Administración de tu Airbnb en Puerto Rico": "Why Choose Luxe to Manage Your Airbnb in Puerto Rico",
+  "No somos una agencia de bienes raíces. Somos un equipo de hospitalidad que trata tu propiedad como un activo de lujo y a cada huésped como un cliente de cinco estrellas — para que ganes más, te preocupes menos y protejas tu inversión.": "We're not a real estate agency. We're a hospitality team that treats your property like a luxury asset and every guest like a five-star client — so you earn more, worry less, and protect your investment.",
+  "Más ingresos, menos esfuerzo": "More income, less effort",
+  "Optimizamos tarifas con tecnología inteligente para que ganes más sin levantar un dedo.": "We optimize rates with smart technology so you earn more without lifting a finger.",
+  "Estándar de hospitalidad de lujo": "Luxury hospitality standard",
+  "Cada estadía se cuida con el detalle de un hotel boutique, elevando tus reseñas y tu reputación.": "Every stay is cared for with boutique-hotel attention to detail, elevating your reviews and your reputation.",
+  "Confianza y transparencia total": "Total trust and transparency",
+  "Reportes claros, comunicación constante y operaciones profesionales en las que puedes confiar.": "Clear reports, constant communication, and professional operations you can rely on.",
+  "Conocemos cada municipio, cada temporada y cada oportunidad para que tu propiedad rinda al máximo.": "We know every municipality, every season, and every opportunity to help your property perform at its best.",
+  "Agenda tu Consulta Gratuita": "Book Your Free Consultation",
+  "Hospitalidad, no solo administración": "Hospitality, not just management",
+  "Operamos tu Airbnb como un activo premium.": "We run your Airbnb like a premium asset.",
+  "Nuestro compromiso contigo": "Our commitment to you",
+  "\"Tratamos cada propiedad como si fuera nuestra, y a cada huésped como un cliente de cinco estrellas. Esa obsesión por el detalle es lo que convierte tu Airbnb en una experiencia memorable —y en una inversión que rinde.\"": "\"We treat every property as if it were our own, and every guest like a five-star client. That obsession with detail is what turns your Airbnb into a memorable experience — and an investment that performs.\"",
+  "El equipo de Luxe": "The Luxe Team",
+  "Transparencia total en cada reporte": "Full transparency in every report",
+  "Respuesta a huéspedes en minutos, 24/7": "Guest response within minutes, 24/7",
+  "Sin contratos atados: nos ganamos tu confianza": "No binding contracts: we earn your trust",
+  "Servicio integral": "Full-service management",
+  "Servicios de Property Management para tu Airbnb": "Property Management Services for Your Airbnb",
+  "Una solución integral de administración Airbnb en Puerto Rico para que tu propiedad funcione sola. Desde la consultoría inicial hasta el reporte de cada mes, nosotros nos encargamos de todo — tú solo recibes los resultados.": "A complete Airbnb management solution in Puerto Rico so your property runs itself. From initial consulting to your monthly report, we take care of everything — you just receive the results.",
+  "Consultoría Estratégica para Airbnb": "Strategic Airbnb Consulting",
+  "Analizamos tu propiedad y mercado para diseñar una estrategia que maximice ocupación e ingresos.": "We analyze your property and market to design a strategy that maximizes occupancy and revenue.",
+  "Configuración y Lanzamiento Profesional": "Professional Setup & Launch",
+  "Creamos y lanzamos tu anuncio con fotografía, descripción y configuración optimizadas desde el día uno.": "We create and launch your listing with optimized photography, copy, and settings from day one.",
+  "Optimización de Anuncios": "Listing Optimization",
+  "Mejoramos títulos, fotos, palabras clave y precios para posicionar tu propiedad por encima de la competencia.": "We improve titles, photos, keywords, and pricing to position your property above the competition.",
+  "Administración Completa": "Full Management",
+  "Gestionamos cada aspecto operativo de tu Airbnb para que tú no tengas que ocuparte de nada.": "We handle every operational aspect of your Airbnb so you don't have to deal with anything.",
+  "Comunicación profesional y disponible 24/7, antes, durante y después de cada estadía.": "Professional, 24/7 communication before, during, and after every stay.",
+  "Optimización Inteligente de Tarifas": "Smart Rate Optimization",
+  "Ajustamos precios de forma dinámica según demanda, temporada y eventos para maximizar cada noche.": "We adjust pricing dynamically based on demand, season, and events to maximize every night.",
+  "Coordinación de Limpieza": "Cleaning Coordination",
+  "Coordinamos limpiezas profesionales entre estadías para mantener un estándar impecable.": "We coordinate professional cleanings between stays to maintain an impeccable standard.",
+  "Coordinación de Mantenimiento": "Maintenance Coordination",
+  "Atendemos reparaciones y mantenimiento preventivo para proteger el valor de tu propiedad.": "We handle repairs and preventive maintenance to protect your property's value.",
+  "Reportes para Propietarios": "Owner Reporting",
+  "Informes claros y periódicos sobre ingresos, ocupación y desempeño, con total transparencia.": "Clear, regular reports on revenue, occupancy, and performance, with full transparency.",
+  "¿No estás seguro de cuáles necesitas? Te lo decimos en tu consulta gratuita.": "Not sure which ones you need? We'll help you figure it out in your free consultation.",
+  "Portafolio selecto": "Curated portfolio",
+  "Una Colección de Estadías Excepcionales": "A Collection of Exceptional Stays",
+  "Cada propiedad de nuestro portafolio es curada y operada con el rigor de un hotel boutique. Frente al mar, en la montaña o en el corazón de la ciudad —así se ve la hospitalidad de lujo en Puerto Rico.": "Every property in our portfolio is curated and operated with the rigor of a boutique hotel. Oceanfront, in the mountains, or in the heart of the city — this is what luxury hospitality looks like in Puerto Rico.",
+  "Familiar moderno": "Modern family stay",
+  "Diseño cómodo": "Comfortable design",
+  "Casa moderna": "Modern home",
+  "Frente a la playa": "Beachfront",
+  "Montaña + jacuzzi": "Mountain + jacuzzi",
+  "Parejas y atardeceres": "Couples & sunsets",
+  "Mini casa romántica": "Romantic tiny home",
+  "Suite moderna": "Modern suite",
+  "Cerca de playa": "Near the beach",
+  "Jobos frente al mar": "Jobos oceanfront",
+  "Espacio familiar moderno en Isabela, ideal para una estadía cómoda cerca de playas, restaurantes y puntos clave del pueblo.": "A modern family space in Isabela, ideal for a comfortable stay near beaches, restaurants, and key local spots.",
+  "Apartamento familiar con estilo moderno, preparado para huéspedes que buscan descanso, buena ubicación y una experiencia sencilla en Isabela.": "A family apartment with modern style, prepared for guests seeking rest, a good location, and an easy Isabela experience.",
+  "Casa moderna en Isabela, cerca de la playa y del centro, pensada para familias o grupos que quieren moverse con facilidad por la costa noroeste.": "A modern home in Isabela, near the beach and town center, designed for families or groups who want easy access around the northwest coast.",
+  "Casa Punta Arenas frente a la playa en Cabo Rojo, creada para disfrutar arena, mar y días largos de descanso en el suroeste.": "Casa Punta Arenas is a beachfront stay in Cabo Rojo, made for sand, sea, and long relaxing days in the southwest.",
+  "Escape privado de montaña con jacuzzi, diseñado para desconectar entre naturaleza, aire fresco y una estadía tranquila en Lares.": "A private mountain escape with a jacuzzi, designed to disconnect among nature, fresh air, and a peaceful stay in Lares.",
+  "Mini casa frente al mar para parejas, perfecta para atardeceres, escapadas íntimas y una experiencia relajada en Isabela.": "A tiny oceanfront home for couples, perfect for sunsets, intimate getaways, and a relaxed Isabela experience.",
+  "Mini casa de playa romántica en Isabela, ideal para parejas que buscan privacidad, brisa costera y una escapada sencilla cerca del mar.": "A romantic beach tiny home in Isabela, ideal for couples seeking privacy, coastal breezes, and an easy getaway near the sea.",
+  "Suite moderna en Isabela, cerca de la playa y del centro, perfecta para una estadía práctica con estilo costero.": "A modern suite in Isabela, near the beach and town center, perfect for a practical stay with coastal style.",
+  "Suite moderna cerca de la playa y el centro de Isabela, diseñada para huéspedes que valoran ubicación, comodidad y acceso rápido a la costa.": "A modern suite near the beach and downtown Isabela, designed for guests who value location, comfort, and quick access to the coast.",
+  "The Seaside Wagon es una escapada frente al océano para cuatro huéspedes, cerca del área de Middles y del ambiente playero de Isabela.": "The Seaside Wagon is an oceanfront escape for four guests, near the Middles area and Isabela beach scene.",
+  "Villa familiar frente al mar en Jobos, pensada para grupos que quieren playa, surf y una base cómoda en una de las zonas más buscadas de Isabela.": "A family oceanfront villa in Jobos, made for groups who want beach, surf, and a comfortable base in one of Isabela’s most sought-after areas.",
+  "Airbnb": "Airbnb",
+  "publicado": "published",
+  "co-host": "co-host",
+  "Ver Propiedad": "View Property",
+  "Calculadora de ingresos": "Revenue calculator",
+  "¿Cuánto Podría Generar tu Airbnb?": "How Much Could Your Airbnb Earn?",
+  "Ajusta los detalles de tu propiedad y descubre una estimación de tu potencial con administración profesional.": "Adjust your property's details and see an estimate of its potential with professional management.",
+  "Municipio": "Municipality",
+  "Habitaciones": "Bedrooms",
+  "Estudio": "Studio",
+  "Ocupación estimada": "Estimated occupancy",
+  "Calidad de la propiedad": "Property quality",
+  "Estándar": "Standard",
+  "Cómoda": "Comfortable",
+  "Lujo": "Luxury",
+  "Tu proyección con Luxe": "Your projection with Luxe",
+  "/mes": "/mo",
+  "Proyección anual": "Annual projection",
+  "Administrando por tu cuenta": "Managing it yourself",
+  "Con Luxe Property Management": "With Luxe Property Management",
+  "al año": "per year",
+  "de ingresos adicionales estimados con nuestra gestión": "in estimated additional income with our management",
+  "Obtener mi proyección personalizada": "Get My Personalized Projection",
+  "Estimación basada en datos de mercado de AirDNA (2026) por municipio. Las cifras son referenciales: los resultados reales varían según la ocupación, la estacionalidad, el número de habitaciones y las características de cada propiedad. Tu consulta gratuita incluye un análisis personalizado.": "Estimate based on AirDNA (2026) market data by municipality. Figures are for reference only: actual results vary based on occupancy, seasonality, number of bedrooms, and each property’s characteristics. Your free consultation includes a personalized analysis.",
+  "El antes y el después": "Before and after",
+  "La Diferencia de una Administración Profesional": "The Difference Professional Management Makes",
+  "Lo que cambia cuando dejas de hacerlo todo tú y confías en un equipo de hospitalidad de lujo.": "What changes when you stop doing it all yourself and trust a luxury hospitality team.",
+  "Antes": "Before",
+  "Administrando solo": "Managing it alone",
+  "Tiempo, estrés y oportunidades perdidas.": "Time, stress, and missed opportunities.",
+  "Mensajes de huéspedes a toda hora, todos los días": "Guest messages at all hours, every day",
+  "Precios fijos que dejan dinero sobre la mesa": "Fixed pricing that leaves money on the table",
+  "Reseñas inconsistentes que frenan las reservas": "Inconsistent reviews that slow down bookings",
+  "Calendario con noches vacías en temporada alta": "Empty nights on the calendar during peak season",
+  "Limpieza y mantenimiento que resolver por tu cuenta": "Cleaning and maintenance you have to handle yourself",
+  "Después": "After",
+  "Con Luxe": "With Luxe",
+  "Más ingresos, cero estrés, total tranquilidad.": "More income, zero stress, total peace of mind.",
+  "Atención al huésped 24/7": "24/7 guest support",
+  "gestionada por nuestro equipo": "handled by our team",
+  "Precios dinámicos": "Dynamic pricing",
+  "que maximizan cada noche": "that maximizes every night",
+  "Reseñas de 5 estrellas": "Five-star reviews",
+  "que impulsan tu visibilidad": "that boost your visibility",
+  "Ocupación optimizada": "Optimized occupancy",
+  "durante todo el año": "all year round",
+  "Limpieza y mantenimiento": "Cleaning and maintenance",
+  "coordinados sin que muevas un dedo": "coordinated without you lifting a finger",
+  "El impacto Luxe": "The Luxe impact",
+  "Resultados que Hablan por Sí Solos": "Results That Speak for Themselves",
+  "Lo que reciben nuestros propietarios cuando confían su propiedad a un equipo profesional.": "What our owners get when they trust their property to a professional team.",
+  "Más ingresos": "More revenue",
+  "Mayor ocupación": "Higher occupancy",
+  "Mejores reseñas": "Better reviews",
+  "Más tiempo libre": "More free time",
+  "Operaciones profesionales": "Professional operations",
+  "Quiero estos resultados para mi propiedad": "I Want These Results for My Property",
+  "Transparencia total": "Full transparency",
+  "Tu Propiedad, Siempre Bajo Control": "Your Property, Always Under Control",
+  "Cada propietario recibe reportes claros sobre ingresos, ocupación y desempeño. Así se ve la tranquilidad de saber exactamente cómo rinde tu inversión.": "Every owner receives clear reports on revenue, occupancy, and performance. This is what peace of mind looks like when you know exactly how your investment is performing.",
+  "Panel del Propietario · Villa Mareluna": "Owner Dashboard · Villa Mareluna",
+  "Ingresos del mes": "This month's revenue",
+  "vs. antes": "vs. before",
+  "Ocupación": "Occupancy",
+  "puntos": "points",
+  "Calificación": "Rating",
+  "Reservas": "Bookings",
+  "Este mes": "This month",
+  "Ingresos mensuales": "Monthly revenue",
+  "Ene": "Jan",
+  "Feb": "Feb",
+  "Mar": "Mar",
+  "Abr": "Apr",
+  "May": "May",
+  "Jun": "Jun",
+  "Cómo trabajamos": "How we work",
+  "Un método probado, transparente y sin fricción. Desde la primera conversación hasta tus reportes mensuales, cada paso está diseñado para darte tranquilidad y resultados.": "A proven, transparent, friction-free method. From our first conversation to your monthly reports, every step is designed to give you peace of mind and results.",
+  "Desliza para ver los 7 pasos de nuestro proceso": "Swipe to see all 7 steps of our process",
+  "Evaluamos tu propiedad": "We evaluate your property",
+  "Analizamos a fondo tu propiedad, su ubicación y su potencial dentro del mercado de Puerto Rico.": "We thoroughly analyze your property, its location, and its potential within the Puerto Rico market.",
+  "Diseñamos tu estrategia": "We design your strategy",
+  "Creamos un plan personalizado de ingresos, posicionamiento y experiencia del huésped, hecho a la medida de tu inversión.": "We create a personalized plan for revenue, positioning, and guest experience, tailored to your investment.",
+  "Optimizamos el anuncio": "We optimize the listing",
+  "Perfeccionamos cada detalle —fotografía, narrativa y palabras clave— para que tu propiedad cautive desde el primer instante.": "We perfect every detail — photography, storytelling, and keywords — so your property captivates from the very first glance.",
+  "Configuramos precios dinámicos": "We set up dynamic pricing",
+  "Ajustamos las tarifas en tiempo real según demanda, temporada y eventos, para capturar el máximo valor de cada noche.": "We adjust rates in real time based on demand, season, and events to capture the maximum value from every night.",
+  "Administramos a tus huéspedes": "We manage your guests",
+  "Atendemos cada reserva, mensaje y estadía con un estándar de hospitalidad de cinco estrellas, las 24 horas.": "We handle every booking, message, and stay to a five-star hospitality standard, around the clock.",
+  "Supervisamos limpieza y mantenimiento": "We oversee cleaning and maintenance",
+  "Coordinamos un cuidado impecable entre estadías para proteger el valor y la reputación de tu propiedad.": "We coordinate impeccable care between stays to protect your property's value and reputation.",
+  "Te enviamos reportes periódicos": "We send you regular reports",
+  "Recibes informes claros y elegantes sobre ingresos, ocupación y desempeño, con total transparencia.": "You receive clear, elegant reports on revenue, occupancy, and performance, with full transparency.",
+  "Comenzar con el primer paso": "Start with Step One",
+  "Lo que dicen los propietarios": "What owners are saying",
+  "Confianza que se Construye con Resultados": "Trust Built on Results",
+  "Detrás de cada propiedad que administramos hay un propietario que recuperó su tiempo y vio crecer su inversión. Estos son nuestros números.": "Behind every property we manage is an owner who got their time back and watched their investment grow. Here are our numbers.",
+  "Años de experiencia": "Years of experience",
+  "Propiedades administradas": "Properties managed",
+  "Satisfacción de huéspedes": "Guest satisfaction",
+  "Reseña promedio": "Average rating",
+  "Mejora en ocupación": "Occupancy improvement",
+  "Cifras de muestra — reemplazables con tus datos reales antes del lanzamiento.": "Sample figures — to be replaced with your real data before launch.",
+  "\"Pasé de revisar mensajes a toda hora a no preocuparme por nada. Mis ingresos subieron casi un 40% en el primer trimestre y mis reseñas nunca habían sido tan buenas.\"": "\"I went from checking messages around the clock to not worrying about anything. My income went up almost 40% in the first quarter, and my reviews have never been better.\"",
+  "+40% en ingresos": "+40% in revenue",
+  "Propietario verificado · Rincón": "Verified owner · Rincón",
+  "\"El nivel de profesionalismo es de otro mundo. Tratan mi apartamento como si fuera un hotel boutique. Por fin siento que mi propiedad está en las mejores manos.\"": "\"The level of professionalism is out of this world. They treat my apartment like a boutique hotel. I finally feel like my property is in the best hands.\"",
+  "Estatus Superhost alcanzado": "Superhost status achieved",
+  "Propietaria verificada · San Juan": "Verified owner · San Juan",
+  "\"Vivo fuera de la isla y administrar a distancia era imposible. Luxe se encarga de absolutamente todo y cada mes recibo un reporte claro. Tranquilidad total.\"": "\"I live off the island, and managing remotely was impossible. Luxe takes care of absolutely everything, and every month I get a clear report. Total peace of mind.\"",
+  "Administración 100% a distancia": "100% remote management",
+  "Propietario verificado · Cabo Rojo": "Verified owner · Cabo Rojo",
+  "Testimonios de muestra · reemplazables con reseñas reales de tus propietarios.": "Sample testimonials · to be replaced with real reviews from your owners.",
+  "Claridad total": "Total clarity",
+  "Lo que los Propietarios Preguntan Antes de Empezar": "What Owners Ask Before Getting Started",
+  "Respuestas claras y transparentes, para que decidas con total confianza.": "Clear, transparent answers, so you can decide with total confidence.",
+  "¿Cuánto cuesta el servicio de administración?": "How much does management cost?",
+  "Trabajamos con un modelo basado en un porcentaje de los ingresos generados, lo que significa que solo ganamos cuando tú ganas. No hay cuotas ocultas. Durante tu consulta gratuita te presentamos una propuesta transparente y adaptada a tu propiedad.": "We work on a percentage-of-revenue model, which means we only earn when you earn. No hidden fees. During your free consultation, we'll present a transparent proposal tailored to your property.",
+  "¿Tengo que firmar un contrato a largo plazo?": "Do I have to sign a long-term contract?",
+  "No. Ofrecemos acuerdos flexibles diseñados para proteger tus intereses. Creemos en ganarnos tu confianza con resultados, no con cláusulas restrictivas. Puedes empezar sin ataduras.": "No. We offer flexible agreements designed to protect your interests. We believe in earning your trust through results, not restrictive clauses. You can get started with no strings attached.",
+  "¿Y si vivo fuera de Puerto Rico?": "What if I live outside of Puerto Rico?",
+  "La mayoría de nuestros propietarios administran a distancia. Nos encargamos de absolutamente todo en la isla y te mantenemos informado con reportes claros cada mes. Tú recibes los ingresos; nosotros, el trabajo.": "Most of our owners manage remotely. We take care of absolutely everything on the island and keep you informed with clear monthly reports. You get the income; we do the work.",
+  "¿Cómo sé cuánto está generando mi propiedad?": "How do I know how much my property is earning?",
+  "Recibirás reportes periódicos claros y detallados sobre ingresos, ocupación y desempeño. La transparencia total es uno de nuestros pilares: siempre sabrás exactamente cómo rinde tu inversión.": "You'll receive clear, detailed, regular reports on revenue, occupancy, and performance. Total transparency is one of our core principles: you'll always know exactly how your investment is performing.",
+  "¿Qué pasa si mi propiedad aún no está en Airbnb?": "What if my property isn't on Airbnb yet?",
+  "Perfecto. Nos encargamos de todo el lanzamiento profesional: fotografía, redacción del anuncio, configuración de precios y publicación optimizada desde el primer día. Solo necesitas la propiedad; del resto nos ocupamos nosotros.": "Perfect. We handle the entire professional launch: photography, listing copy, pricing setup, and optimized publishing from day one. You just need the property; we take care of the rest.",
+  "¿Cómo manejan la atención a los huéspedes?": "How do you handle guest communication?",
+  "Nuestro equipo brinda atención profesional 24/7, gestionando reservas, consultas, check-in, check-out y cualquier incidencia con un estándar de hospitalidad de lujo que protege tus reseñas.": "Our team provides professional 24/7 support, managing bookings, inquiries, check-in, check-out, and any issues to a luxury hospitality standard that protects your reviews.",
+  "Resolver mis dudas en una consulta gratuita": "Get My Questions Answered in a Free Consultation",
+  "Tu primer paso": "Your first step",
+  "Descubre Cuánto Podría Generar tu Propiedad": "Find Out How Much Your Property Could Earn",
+  "Cuéntanos sobre tu propiedad y te mostraremos exactamente cómo aumentar tus ingresos. Una consulta sin costo y sin compromiso.": "Tell us about your property and we'll show you exactly how to increase your income. A free, no-obligation consultation.",
+  "Evaluación gratuita del potencial real de tu propiedad": "Free evaluation of your property's real potential",
+  "Estrategia personalizada de ingresos y ocupación": "Personalized revenue and occupancy strategy",
+  "Respuesta de nuestro equipo en menos de 24 horas": "Response from our team within 24 hours",
+  "Sin compromiso y sin contratos a largo plazo": "No obligation and no long-term contracts",
+  "\"En la primera llamada ya me mostraron oportunidades que yo no veía. Hoy gano un 40% más.\"": "\"On the very first call, they showed me opportunities I hadn’t seen. Today I earn 40% more.\"",
+  "Nombre": "Name",
+  "Correo": "Email",
+  "Teléfono": "Phone",
+  "Cantidad de habitaciones": "Number of bedrooms",
+  "Link de Airbnb": "Airbnb Link",
+  "(opcional)": "(optional)",
+  "Mensaje": "Message",
+  "Selecciona": "Select",
+  "1 habitación": "1 bedroom",
+  "2 habitaciones": "2 bedrooms",
+  "3 habitaciones": "3 bedrooms",
+  "4 habitaciones": "4 bedrooms",
+  "5+ habitaciones": "5+ bedrooms",
+  "Tus datos están protegidos. Nunca compartimos tu información ni te enviamos spam.": "Your information is protected. We never share your data or send spam.",
+  "Cobertura en la isla": "Island-wide coverage",
+  "Áreas de Servicio de Administración Airbnb en Puerto Rico": "Airbnb Management Service Areas in Puerto Rico",
+  "Ofrecemos administración Airbnb y servicios de co-host en los destinos más solicitados del norte, oeste y sur de Puerto Rico.": "We offer Airbnb management and co-host services in Puerto Rico's most requested destinations across the north, west, and south.",
+  "¿No ves tu municipio?": "Don't see your municipality?",
+  "Escríbenos": "Reach out",
+  "— seguimos expandiéndonos por toda la isla.": "— we’re continuing to expand across the island.",
+  "Hablemos": "Let's talk",
+  "Da el Primer Paso Hoy": "Take the First Step Today",
+  "Cada mes aceptamos un número limitado de propiedades nuevas para garantizar nuestro estándar de servicio. Agenda tu consulta gratuita y descubre el potencial real de tu inversión.": "Each month we accept a limited number of new properties to maintain our standard of service. Book your free consultation and discover your investment's real potential.",
+  "Tiempo de respuesta": "Response time",
+  "Menos de 24 horas": "Under 24 hours",
+  "¿Listo para empezar?": "Ready to get started?",
+  "Agenda tu consulta gratuita o escríbenos directamente. Sin compromiso y sin contratos a largo plazo.": "Book your free consultation or message us directly. No obligation, no long-term contracts.",
+  "Contactar por WhatsApp": "Message Us on WhatsApp",
+  "Tipo de propiedad": "Property type",
+  "Calificación de huéspedes": "Guest rating",
+  "Estado": "Status",
+  "Administrada por Luxe": "Managed by Luxe",
+  "Quiero resultados así": "I Want Results Like These",
+  "Administración Airbnb, property management y consultoría profesional de propiedades en Puerto Rico. Elevamos tu propiedad al estándar de la hospitalidad de lujo y maximizamos tus ingresos.": "Airbnb management, property management, and professional consulting for properties in Puerto Rico. We elevate your property to a luxury hospitality standard and maximize your income.",
+  "Consultoría Airbnb": "Airbnb Consulting",
+  "Co-Host y Atención al Huésped": "Co-Host & Guest Support",
+  "Optimización de Tarifas": "Rate Optimization",
+  "Explora": "Explore",
+  "Por qué Luxe": "Why Luxe",
+  "Propiedades que Administramos": "Properties We Manage",
+  "© 2026 Luxe Property Management · Administración Airbnb y Property Management en Puerto Rico. Todos los derechos reservados.": "© 2026 Luxe Property Management · Airbnb Management and Property Management in Puerto Rico. All rights reserved.",
+  "Hospitalidad de lujo · Puerto Rico": "Luxury hospitality · Puerto Rico",
+  "WhatsApp": "WhatsApp",
+  "Property Management": "Property Management",
+  "Premium": "Premium",
+  "VS": "VS",
+  "Superhost": "Superhost"
+};
+  const placeholderTranslations={
+  "Tu nombre completo": "Your full name",
+  "tu@correo.com": "you@email.com",
+  "Ej. Rincón": "E.g. Rincón",
+  "Cuéntanos sobre tu propiedad y tus objetivos...": "Tell us about your property and your goals..."
+};
+  const ariaTranslations={
+  "Navegación principal": "Main navigation",
+  "Abrir menú": "Open menu",
+  "Cerrar menú": "Close menu",
+  "Desplázate": "Scroll down",
+  "Contactar por WhatsApp": "Message us on WhatsApp",
+  "Escríbenos por WhatsApp": "Message us on WhatsApp",
+  "Síguenos en Instagram": "Follow us on Instagram",
+  "Síguenos en Facebook": "Follow us on Facebook",
+  "Cambiar idioma / Change language": "Cambiar idioma / Change language",
+  "Casa Agis Apt #1 — Airbnb familiar moderno en Isabela, Puerto Rico, administrado por Luxe": "Casa Agis Apt #1 — modern family Airbnb in Isabela, Puerto Rico, managed by Luxe",
+  "Casa Agis Apt #3 — Airbnb familiar moderno en Isabela, Puerto Rico, administrado por Luxe": "Casa Agis Apt #3 — modern family Airbnb in Isabela, Puerto Rico, managed by Luxe",
+  "La Marina House — casa moderna Airbnb en Isabela, Puerto Rico, administrada por Luxe": "La Marina House — modern Airbnb home in Isabela, Puerto Rico, managed by Luxe",
+  "Sandy Point — Airbnb frente a la playa en Cabo Rojo, Puerto Rico, administrado por Luxe": "Sandy Point — beachfront Airbnb in Cabo Rojo, Puerto Rico, managed by Luxe",
+  "Cumbre Serena — retiro Airbnb de montaña con jacuzzi en Lares, Puerto Rico, administrado por Luxe": "Cumbre Serena — mountain Airbnb retreat with jacuzzi in Lares, Puerto Rico, managed by Luxe",
+  "Golondrinas — mini casa Airbnb frente al mar para parejas y atardeceres en Isabela, Puerto Rico, administrada por Luxe": "Golondrinas — oceanfront tiny Airbnb home for couples and sunsets in Isabela, Puerto Rico, managed by Luxe",
+  "Secrete Spot — mini casa de playa romántica Airbnb en Isabela, Puerto Rico, administrada por Luxe": "Secrete Spot — romantic beach tiny Airbnb home in Isabela, Puerto Rico, managed by Luxe",
+  "La Marina Suite 1 — suite moderna Airbnb en Isabela, Puerto Rico, administrada por Luxe": "La Marina Suite 1 — modern Airbnb suite in Isabela, Puerto Rico, managed by Luxe",
+  "La Marina Suite 2 — suite moderna Airbnb en Isabela, Puerto Rico, administrada por Luxe": "La Marina Suite 2 — modern Airbnb suite in Isabela, Puerto Rico, managed by Luxe",
+  "Middles — The Seaside Wagon Airbnb frente al océano en Isabela, Puerto Rico, administrado por Luxe": "Middles — The Seaside Wagon oceanfront Airbnb in Isabela, Puerto Rico, managed by Luxe",
+  "Surfers Paradise — villa familiar Airbnb frente al mar en Jobos, Isabela, Puerto Rico, administrada por Luxe": "Surfers Paradise — family oceanfront Airbnb villa in Jobos, Isabela, Puerto Rico, managed by Luxe",
+  "Villa de lujo frente al mar en Puerto Rico administrada por Luxe Property Management": "Luxury oceanfront villa in Puerto Rico managed by Luxe Property Management"
+};
+  const altTranslations={
+  "Interior de propiedad Airbnb de lujo bajo administración profesional de Luxe Property Management en Puerto Rico": "Interior of a luxury Airbnb property under professional management by Luxe Property Management in Puerto Rico"
+};
+  const originalText=new WeakMap();
+  const skipTags=new Set(['SCRIPT','STYLE','NOSCRIPT','TEMPLATE']);
+  function key(v){return (v||'').replace(/\s+/g,' ').trim();}
+  function translatePreservingSpace(value,map){
+    const k=key(value);
+    if(!map[k]) return value;
+    const lead=(value.match(/^\s*/)||[''])[0];
+    const tail=(value.match(/\s*$/)||[''])[0];
+    return lead+map[k]+tail;
+  }
+  function walkTextNodes(root,cb){
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
+      const parent=node.parentElement;
+      if(!parent||skipTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+      if(!key(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(cb);
+  }
+  function captureOriginals(){
+    walkTextNodes(document.body,node=>{if(!originalText.has(node)) originalText.set(node,node.nodeValue);});
+    document.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(el=>{
+      if(el.dataset.esPlaceholder===undefined) el.dataset.esPlaceholder=el.getAttribute('placeholder')||'';
+    });
+    document.querySelectorAll('[aria-label]').forEach(el=>{
+      if(el.dataset.esAriaLabel===undefined) el.dataset.esAriaLabel=el.getAttribute('aria-label')||'';
+    });
+    document.querySelectorAll('img[alt]').forEach(el=>{
+      if(el.dataset.esAlt===undefined) el.dataset.esAlt=el.getAttribute('alt')||'';
+    });
+  }
+  function applyLang(lang){
+    captureOriginals();
+    document.documentElement.setAttribute('lang',lang==='en'?'en':'es-PR');
+    walkTextNodes(document.body,node=>{
+      const original=originalText.get(node)||node.nodeValue;
+      node.nodeValue=lang==='en'?translatePreservingSpace(original,textTranslations):original;
+    });
+    document.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(el=>{
+      const original=el.dataset.esPlaceholder||'';
+      el.setAttribute('placeholder',lang==='en'?(placeholderTranslations[original]||original):original);
+    });
+    document.querySelectorAll('[aria-label]').forEach(el=>{
+      const original=el.dataset.esAriaLabel||'';
+      el.setAttribute('aria-label',lang==='en'?(ariaTranslations[original]||original):original);
+    });
+    document.querySelectorAll('img[alt]').forEach(el=>{
+      const original=el.dataset.esAlt||'';
+      el.setAttribute('alt',lang==='en'?(altTranslations[original]||original):original);
+    });
+    if(btnDesktop) btnDesktop.textContent=lang==='en'?'Español':'English';
+    if(btnMobile) btnMobile.textContent=lang==='en'?'Español':'English';
+    localStorage.setItem(STORAGE_KEY,lang);
+    window.__luxeLang=lang;
+    window.dispatchEvent(new CustomEvent('luxe:lang',{detail:{lang}}));
+  }
+  function toggle(){applyLang(currentLuxeLang()==='en'?'es':'en');}
+  window.__applyLuxeLang=()=>applyLang(currentLuxeLang());
+  captureOriginals();
+  applyLang(currentLuxeLang());
+  if(btnDesktop) btnDesktop.addEventListener('click',toggle);
+  if(btnMobile) btnMobile.addEventListener('click',toggle);
+})();
+
+
 document.querySelectorAll('.faq-q').forEach(q=>{
   q.addEventListener('click',()=>{
     const item=q.parentElement;
@@ -1950,11 +2406,12 @@ if(dashBars)dashIO.observe(dashBars);
     const done=required.filter(valid).length;
     const p=Math.round(done/required.length*100);
     bar.style.width=p+'%';pct.textContent=p+'%';
-    if(p===0)label.textContent='Completa tus datos para empezar';
-    else if(p<100)label.textContent='Vas muy bien, sigue así';
-    else label.textContent='¡Listo para enviar!';
+    if(p===0)label.textContent=i18nDynamic[currentLuxeLang()].progressStart;
+    else if(p<100)label.textContent=i18nDynamic[currentLuxeLang()].progressMid;
+    else label.textContent=i18nDynamic[currentLuxeLang()].progressDone;
   }
   form.querySelectorAll('input,select').forEach(el=>{el.addEventListener('input',update);el.addEventListener('change',update);});
+  window.addEventListener('luxe:lang',update);
   update();
 })();
 
@@ -1978,30 +2435,30 @@ if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
     e.preventDefault();
     const btn=form.querySelector('button[type=submit]');
     const note=form.querySelector('.form-note');
-    const restore='<i class="ti ti-lock" style="font-size:13px;vertical-align:-2px;"></i> Tus datos están protegidos. Nunca compartimos tu información ni te enviamos spam.';
+    const restore=()=>'<i class="ti ti-lock" style="font-size:13px;vertical-align:-2px;"></i> '+i18nDynamic[currentLuxeLang()].restoreNote;
     // basic native validation
     if(!form.checkValidity()){form.reportValidity();return;}
     const original=btn.innerHTML;
     btn.disabled=true;
-    btn.innerHTML='<i class="ti ti-loader-2"></i> Enviando…';
+    btn.innerHTML='<i class="ti ti-loader-2"></i> '+i18nDynamic[currentLuxeLang()].sending;
     try{
       const data=new FormData(form);
       const res=await fetch(form.action,{method:'POST',body:data,headers:{'Accept':'application/json'}});
       if(res.ok){
-        btn.innerHTML='<i class="ti ti-check"></i> ¡Solicitud Recibida!';
+        btn.innerHTML='<i class="ti ti-check"></i> '+i18nDynamic[currentLuxeLang()].received;
         btn.style.background='#1FA855';btn.style.color='#fff';
-        if(note)note.innerHTML='<i class="ti ti-circle-check" style="font-size:13px;vertical-align:-2px;color:#1FA855;"></i> Gracias. Nuestro equipo te contactará en menos de 24 horas.';
+        if(note)note.innerHTML='<i class="ti ti-circle-check" style="font-size:13px;vertical-align:-2px;color:#1FA855;"></i> '+i18nDynamic[currentLuxeLang()].successNote;
         form.reset();
         const bar=document.getElementById('fpBar'),pct=document.getElementById('fpPct'),label=document.getElementById('fpLabel');
-        if(bar){bar.style.width='0%';pct.textContent='0%';label.textContent='Completa tus datos para empezar';}
-        setTimeout(()=>{btn.disabled=false;btn.innerHTML='<i class="ti ti-calendar-heart"></i> Solicitar mi Consulta Gratuita';btn.style.background='';btn.style.color='';if(note)note.innerHTML=restore;},5000);
+        if(bar){bar.style.width='0%';pct.textContent='0%';label.textContent=i18nDynamic[currentLuxeLang()].progressStart;}
+        setTimeout(()=>{btn.disabled=false;btn.innerHTML='<i class="ti ti-calendar-heart"></i> '+i18nDynamic[currentLuxeLang()].submitBtn;btn.style.background='';btn.style.color='';if(note)note.innerHTML=restore();},5000);
       }else{
         throw new Error('Respuesta no válida');
       }
     }catch(err){
       btn.disabled=false;
       btn.innerHTML=original;
-      if(note)note.innerHTML='<i class="ti ti-alert-circle" style="font-size:13px;vertical-align:-2px;color:#D98E6A;"></i> No pudimos enviar tu solicitud. Escríbenos por WhatsApp al (787) 528-2333.';
+      if(note)note.innerHTML='<i class="ti ti-alert-circle" style="font-size:13px;vertical-align:-2px;color:#D98E6A;"></i> '+i18nDynamic[currentLuxeLang()].errorNote;
     }
   });
 })();
