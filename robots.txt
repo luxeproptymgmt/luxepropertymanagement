@@ -5,4 +5,4 @@ Allow: /
 Disallow:
 
 # Sitemap
-Sitemap: https://www.luxepr.com/sitemap.xml
+Sitemap: https://luxepropmanagement.com/sitemap.xml

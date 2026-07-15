@@ -14,7 +14,7 @@ Sitio web de una sola página (one-page) para una empresa de administración y c
 5. Espera 1–2 minutos. Tu sitio estará disponible en `https://TU-USUARIO.github.io/TU-REPO/`.
 
 ### Dominio personalizado (opcional)
-1. Renombra `CNAME.example` a `CNAME` y escribe dentro tu dominio (ej. `www.luxepr.com`).
+1. Renombra `CNAME.example` a `CNAME` y escribe dentro tu dominio (ej. `luxepropmanagement.com`).
 2. En tu proveedor de DNS, apunta el dominio a GitHub Pages.
 3. En **Settings → Pages → Custom domain**, ingresa tu dominio y activa **Enforce HTTPS**.
 
@@ -27,9 +27,9 @@ Reemplaza estos marcadores de posición con tus datos reales:
 | Qué | Dónde | Buscar y reemplazar |
 |-----|-------|---------------------|
 | **Formspree** | `index.html` | `YOUR_FORM_ID` → tu ID de Formspree (ver abajo) |
-| **Dominio** | `index.html`, `sitemap.xml`, `robots.txt` | `www.luxepr.com` → tu dominio real |
+| **Dominio** | `index.html`, `sitemap.xml`, `robots.txt` | `luxepropmanagement.com` → tu dominio real |
 | **Teléfono** | `index.html` | `17875550100` y `(787) 555-0100` |
-| **Correo** | `index.html` | `hola@luxepr.com` |
+| **Correo** | `index.html` | `luxeproptymgmt@gmail.com` |
 | **Redes sociales** | `index.html` (footer) | enlaces de Instagram / Facebook |
 | **Fotos de propiedades** | `index.html` | URLs de `images.unsplash.com` → tus fotos reales |
 | **Retrato del equipo** | `index.html` (sección "Compromiso") | foto real del equipo |
